@@ -1,34 +1,10 @@
-﻿# For integration in a ESP project
-# See https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/build-system.html#using-third-party-cmake-projects-with-components
-if (ESP_PLATFORM)
+cmake_minimum_required (VERSION 3.8)
 
-    idf_component_register(
-        SRCS "json.cpp"
-        INCLUDE_DIRS "."
-    )
+project(simpleson VERSION 2.0.0)
 
-else()
+add_library(${PROJECT_NAME}
+    json.cpp
+)
 
-    cmake_minimum_required (VERSION 3.8)
-
-    project(simpleson VERSION 2.0.0)
-
-    add_library(${PROJECT_NAME}
-        json.cpp
-    )
-
-    target_include_directories(${PROJECT_NAME} PUBLIC .)
-
-    if(MSVC)
-        # ignore warnings about scanf
-        add_definitions(-D_CRT_SECURE_NO_WARNINGS)
-        add_compile_options(/W4 /WX)
-    else()
-        add_compile_options(-Wall -Wextra -Werror)
-    endif()
-
-    enable_testing()
-    add_subdirectory (test)
-    add_subdirectory (examples)
-
-endif()
+target_include_directories(${PROJECT_NAME} PUBLIC .)
+add_compile_options(-Wall -Wextra -Werror)
